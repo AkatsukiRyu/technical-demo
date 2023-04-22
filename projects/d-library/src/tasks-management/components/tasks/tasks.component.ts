@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ContentChild, TemplateRef } from '@angular/core';
 import { TaskType } from '../../enums/task-types';
 import { TaskModel } from '../../models/tasks-mangement.model';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { DoneDirective, InprogressTaskDirective, TodoTaskDirective } from 'd-library/tasks-management/directives/task.directive';
 
 @Component({
@@ -12,9 +12,9 @@ import { DoneDirective, InprogressTaskDirective, TodoTaskDirective } from 'd-lib
 export class TasksComponent implements OnChanges {
   @ContentChild(TodoTaskDirective, { read: TemplateRef, static: false })
   public todoTemplateRef!: any;
-  @ContentChild(InprogressTaskDirective, {read: TemplateRef})
+  @ContentChild(InprogressTaskDirective, { read: TemplateRef })
   public inprogressTemplateRef!: any;
-  @ContentChild(DoneDirective, {read: TemplateRef})
+  @ContentChild(DoneDirective, { read: TemplateRef })
   public doneTemplateRef!: any;
 
   @Input() public taskData!: Array<TaskModel>;
@@ -25,7 +25,7 @@ export class TasksComponent implements OnChanges {
   @Input() public doneContainerClasses: string[] | string = ['base-container-style'];
   @Input() public taskboxClasses: string[] | string = ['base-box'];
 
-  @Output() public onDropedTask = new EventEmitter<{task: TaskModel, type: TaskType}>();
+  @Output() public onDropedTask = new EventEmitter<{ task: TaskModel, type: TaskType }>();
 
   public todos: Array<TaskModel> = [];
   public inprogress: Array<TaskModel> = [];
@@ -43,30 +43,39 @@ export class TasksComponent implements OnChanges {
     }
   }
 
-  public drop(event: CdkDragDrop<TaskModel[]>) {
+  public drop(event: CdkDragDrop<TaskModel[]>, type: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      const _prevIndex = event.previousIndex;
+      const _prevData = event.previousContainer.data;
+      const dropedItem = _prevData[_prevIndex];
+
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
+
+      this.onDropedTask.emit({
+        task: dropedItem,
+        type: type
+      });
     }
   }
 
   public onDropItem(event: CdkDragDrop<TaskModel[]>, type: any): void {
-    const _prevIndex = event.previousIndex;
-    const _prevData = event.previousContainer.data;
-
-    const dropedItem = _prevData[_prevIndex];
-    console.log(dropedItem, type);
-
-    this.onDropedTask.emit({
-      task: dropedItem, 
-      type: type
-    });
+    /*  const _prevIndex = event.previousIndex;
+     const _prevData = event.previousContainer.data;
+ 
+     const dropedItem = _prevData[_prevIndex];
+     console.log(dropedItem, type);
+ 
+     this.onDropedTask.emit({
+       task: dropedItem, 
+       type: type
+     }); */
   }
 
   private filterTasks(): void {

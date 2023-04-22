@@ -2,30 +2,34 @@
   <div class="w-100 h-100 task-mangement-container primary-font-color">
     <!--  <h2> WELLCOME! {{ user.fullname }} </h2> -->
     <div class="search-container w-100 flex flex-center">
-      <lib-search></lib-search>
+      <lib-search
+        [configuration]="searchConfiguration"></lib-search>
     </div>
 
-    <lib-tasks 
-      [taskData]="(tasks$ | async) || []"
-      [disabledDragItem]="edited"
-      [taskboxClasses]="''">
-
-      <div todoHeaderExtend>
-        <button class="btn btn-primary" (click)="addEmptyTask(user)"> Add </button>
-      </div>
-
-      <ng-template toDoTaskTemplate let-item>
-        <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Todos' }"></ng-container>
-      </ng-template>
-
-      <ng-template inprogressTaskTemplate let-item>
-        <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Inprogress' }"></ng-container>
-      </ng-template>
-
-      <ng-template doneTaskTemplate let-item>
-        <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Done' }"></ng-container>
-      </ng-template>
-    </lib-tasks>
+    <div class="tasks-container">
+      <lib-tasks 
+        [taskData]="(tasks$ | async) || []"
+        [disabledDragItem]="edited"
+        [taskboxClasses]="''"
+        (onDropedTask)="changeTaskStatus($event)">
+  
+        <div todoHeaderExtend>
+          <button class="btn btn-primary" (click)="addEmptyTask(user)"> Add </button>
+        </div>
+  
+        <ng-template toDoTaskTemplate let-item>
+          <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Todos' }"></ng-container>
+        </ng-template>
+  
+        <ng-template inprogressTaskTemplate let-item>
+          <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Inprogress' }"></ng-container>
+        </ng-template>
+  
+        <ng-template doneTaskTemplate let-item>
+          <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Done' }"></ng-container>
+        </ng-template>
+      </lib-tasks>
+    </div>
   </div>
 </ng-container>
 
@@ -54,7 +58,7 @@
       </div>
 
       <div class="flex flex-justify-end">
-        <button class="btn btn-primary m-r-15"> Save </button>
+        <button class="btn btn-primary m-r-15" (click)="updateTask()"> Save </button>
         <button class="btn" (click)="cancelEdited()"> Canceled </button>
       </div>
     </ng-container>
@@ -77,7 +81,8 @@
       <div class="task-box-action">
         <button class="btn btn-warning m-r-15" *ngIf="taskType === 'Todos'"
           (click)="editTask(item)"> Edit </button>
-        <button class="btn btn-danger"> Delete </button>
+        <button class="btn btn-danger"
+          (click)="deleteTask(item)"> Delete </button>
       </div>
     </ng-template>
   </div>

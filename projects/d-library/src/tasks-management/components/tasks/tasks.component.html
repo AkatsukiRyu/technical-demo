@@ -8,7 +8,7 @@
     </div>
 
     <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todos" class="task-list"
-        [cdkDropListConnectedTo]="[inprogressList]" (cdkDropListDropped)="drop($event)">
+        [cdkDropListConnectedTo]="[inprogressList]" (cdkDropListDropped)="drop($event, 'Todos')">
 
         <ng-container *ngFor="let item of todos">
             <div class="task-box"
@@ -48,7 +48,7 @@
     </div>
 
     <div cdkDropList class="task-list" #inprogressList="cdkDropList" [cdkDropListData]="inprogress"
-        [cdkDropListConnectedTo]="[todoList, doneList]" (cdkDropListDropped)="drop($event)">
+        [cdkDropListConnectedTo]="[todoList, doneList]" (cdkDropListDropped)="drop($event, 'Inprogress')">
 
         <ng-container *ngFor="let item of inprogress">
             <div class="task-box" 
@@ -92,7 +92,7 @@
     </div>
 
     <div cdkDropList class="task-list" #doneList="cdkDropList" [cdkDropListData]="done"
-        [cdkDropListConnectedTo]="[todoList, inprogressList]" (cdkDropListDropped)="drop($event)">
+        [cdkDropListConnectedTo]="[todoList, inprogressList]" (cdkDropListDropped)="drop($event, 'Done')">
 
         <ng-container *ngFor="let item of done">
             <div class="task-box"

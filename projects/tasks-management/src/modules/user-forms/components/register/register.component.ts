@@ -10,7 +10,6 @@ import { FormValidators } from '../../utils/form-validator.helper';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() public usernameErrorMessage!: string;
   @Input() public emailErrorMessage!: string;
   @Input() public currentUser!: UserModel | null;
   @Input() public showCancelButton!: boolean;
@@ -51,12 +50,6 @@ export class RegisterComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (!changes) {
       return;
-    }
-
-    if (changes['usernameErrorMessage'] && this.usernameErrorMessage) {
-      // Handle Error Unique field
-      this.usernameErrorMess$.next(this.usernameErrorMessage);
-      this.validateForm();
     }
 
     // Issue on can not detect change this field in some case
@@ -143,7 +136,7 @@ export class RegisterComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    if (this.emailErrorMessage || this.usernameErrorMessage) {
+    if (this.emailErrorMessage) {
       return;
     }
 

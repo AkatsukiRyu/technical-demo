@@ -1,5 +1,5 @@
 export enum TaskType {
     Todos = 'Todos',
-    Inprogress = 'Inprogres',
+    Inprogress = 'Inprogress',
     Done = 'Done'
 }
