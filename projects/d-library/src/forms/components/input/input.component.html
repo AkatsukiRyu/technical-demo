@@ -1,0 +1,11 @@
+<mat-form-field appearance="fill">
+    <div class="label-input">
+        <span class="label" [ngClass]="labelClassName" [class.danger-color]="errorMessage"> {{ label }} </span>
+        <span *ngIf="isRequired" class="required-input"> <b> * </b> </span>
+    </div>
+    
+    <input matInput #inputElement class="input-element" [type]="type" [ngClass]="inputClassName" [disabled]="disabled"
+        [(ngModel)]="value" [placeholder]="placeholder" (blur)="onBlur($event)">
+</mat-form-field>
+
+<span class="danger-color error-message"> {{ errorMessage }} </span>

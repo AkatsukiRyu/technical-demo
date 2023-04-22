@@ -1,0 +1,121 @@
+<div class="task-container" [ngClass]="todosContainerClasses">
+    <div class="task-header">
+        <span> <b> TO DO </b> </span>
+
+        <div class="extend-content">
+            <ng-content select="[todoHeaderExtend]"></ng-content>
+        </div>
+    </div>
+
+    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todos" class="task-list"
+        [cdkDropListConnectedTo]="[inprogressList]" (cdkDropListDropped)="drop($event)">
+
+        <ng-container *ngFor="let item of todos">
+            <div class="task-box"
+                [ngClass]="taskboxClasses"
+                cdkDrag 
+                [cdkDragDisabled]="disabledDragItem === item.id"
+                (cdkDragDropped)="onDropItem($event, 'Todos')">
+
+                <ng-container *ngIf="todoTemplateRef; else todoBasicTemplate">
+                    <ng-container *ngTemplateOutlet="todoTemplateRef; context: { $implicit: item }"></ng-container>
+                </ng-container>
+
+                <ng-template #todoBasicTemplate>
+
+                    <div class="task-title"> {{ item.title }} </div>
+                    <div class="task-body"> {{ item.comment }} </div>
+
+                    <div class="task-created">
+                        {{ item.createdDate | date:formatDate }}
+                    </div>
+
+                </ng-template>
+
+            </div>
+        </ng-container>
+
+    </div>
+</div>
+
+<div class="task-container" [ngClass]="inprogressContainerClasses">
+    <div class="task-header">
+        <span> <b> INPROGRESS </b> </span>
+
+        <div class="extend-content">
+            <ng-content select="[inprogressHeaderExtend]"></ng-content>
+        </div>
+    </div>
+
+    <div cdkDropList class="task-list" #inprogressList="cdkDropList" [cdkDropListData]="inprogress"
+        [cdkDropListConnectedTo]="[todoList, doneList]" (cdkDropListDropped)="drop($event)">
+
+        <ng-container *ngFor="let item of inprogress">
+            <div class="task-box" 
+                [ngClass]="taskboxClasses"
+                cdkDrag 
+                [cdkDragDisabled]="disabledDragItem === item.id"
+                (cdkDragDropped)="onDropItem($event, 'Inprogres')">
+
+                <ng-container
+                    *ngIf="inprogressTemplateRef; then inProgressTempplate; else basicInprogresTemplate"></ng-container>
+
+                <ng-template #inProgressTempplate>
+                    <ng-container
+                        *ngTemplateOutlet="inprogressTemplateRef; context: { $implicit: item }"></ng-container>
+                </ng-template>
+
+                <ng-template #basicInprogresTemplate>
+
+                    <div class="task-title"> {{ item.title }} </div>
+                    <div class="task-body"> {{ item.comment }} </div>
+
+                    <div class="task-created">
+                        {{ item.createdDate | date:formatDate }}
+                    </div>
+
+                </ng-template>
+
+            </div>
+        </ng-container>
+
+    </div>
+</div>
+
+<div class="task-container" [ngClass]="doneContainerClasses">
+    <div class="task-header">
+        <span> <b> DONE </b> </span>
+
+        <div class="extend-content">
+            <ng-content select="[doneHeaderExtend]"></ng-content>
+        </div>
+    </div>
+
+    <div cdkDropList class="task-list" #doneList="cdkDropList" [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="[todoList, inprogressList]" (cdkDropListDropped)="drop($event)">
+
+        <ng-container *ngFor="let item of done">
+            <div class="task-box"
+                [ngClass]="taskboxClasses"
+                cdkDrag 
+                [cdkDragDisabled]="disabledDragItem === item.id"
+                (cdkDragDropped)="onDropItem($event, 'Done')">
+
+                <ng-container *ngIf="doneTemplateRef; else basicDoneTemplate">
+                    <ng-container *ngTemplateOutlet="doneTemplateRef; context: { $implicit: item }"></ng-container>
+                </ng-container>
+                <ng-template #basicDoneTemplate>
+
+                    <div class="task-title"> {{ item.title }} </div>
+                    <div class="task-body"> {{ item.comment }} </div>
+
+                    <div class="task-created">
+                        {{ item.createdDate | date: formatDate }}
+                    </div>
+
+                </ng-template>
+
+            </div>
+        </ng-container>
+    </div>
+</div>

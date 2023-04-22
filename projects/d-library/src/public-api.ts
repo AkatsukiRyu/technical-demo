@@ -1,7 +1,6 @@
 /*
  * Public API Surface of d-library
  */
+export * from './forms';
+export * from './tasks-management';
 
-export * from './lib/d-library.service';
-export * from './lib/d-library.component';
-export * from './lib/d-library.module';

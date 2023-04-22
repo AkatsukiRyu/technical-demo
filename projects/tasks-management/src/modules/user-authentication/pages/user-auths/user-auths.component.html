@@ -1,0 +1,25 @@
+
+<div class="login-form main-background-style primary-font-color shadow-drop-box"
+    [ngClass]="loginAnimationClass">
+    <app-login>
+        <div extendActions class="flex flex-align-center">
+            <span class="register-action pointer"
+                (click)="switchToRegisterForm()">
+                Registry an account
+            </span>
+        </div>
+    </app-login>
+</div>
+
+<div class="register-form main-background-style primary-font-color shadow-drop-box" 
+    [ngClass]="registerAnimationClass">
+    <app-register>
+        <div extendActions class="flex flex-align-center">
+            <span class="pointer"
+                (click)="switchToLoginForm()">
+                Login?
+            </span>
+        </div>
+    </app-register>
+</div>
+

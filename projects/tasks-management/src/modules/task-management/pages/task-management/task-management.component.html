@@ -1,0 +1,84 @@
+<ng-container *ngIf="(user$ | async) as user; else noneUserLoginTemplate">
+  <div class="w-100 h-100 task-mangement-container primary-font-color">
+    <!--  <h2> WELLCOME! {{ user.fullname }} </h2> -->
+    <div class="search-container w-100 flex flex-center">
+      <lib-search></lib-search>
+    </div>
+
+    <lib-tasks 
+      [taskData]="(tasks$ | async) || []"
+      [disabledDragItem]="edited"
+      [taskboxClasses]="''">
+
+      <div todoHeaderExtend>
+        <button class="btn btn-primary" (click)="addEmptyTask(user)"> Add </button>
+      </div>
+
+      <ng-template toDoTaskTemplate let-item>
+        <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Todos' }"></ng-container>
+      </ng-template>
+
+      <ng-template inprogressTaskTemplate let-item>
+        <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Inprogress' }"></ng-container>
+      </ng-template>
+
+      <ng-template doneTaskTemplate let-item>
+        <ng-container *ngTemplateOutlet="taskTemplate; context: { $implicit: item, taskType: 'Done' }"></ng-container>
+      </ng-template>
+    </lib-tasks>
+  </div>
+</ng-container>
+
+<ng-template #noneUserLoginTemplate>
+  <div class="none-user-template primary-background-style slide-right">
+    NONE USER PROVIDED FOR VIEW THIS CONTENT
+  </div>
+</ng-template>
+
+<ng-template #taskTemplate let-item let-taskType="taskType">
+  <div class="task-box-container h-100 primary-font-color">
+
+    <ng-container *ngIf="edited === item.id; else readTemplate">
+      <div class="task-title">
+        <lib-input
+          [label]="'Title'"
+          [(ngModel)]="taskTittle"
+          [maxLength]="150"></lib-input>
+      </div>
+
+      <div class="task-comment">
+        <lib-input
+          label="Comment"
+          [(ngModel)]="taskComment"
+          [maxLength]="250"></lib-input>
+      </div>
+
+      <div class="flex flex-justify-end">
+        <button class="btn btn-primary m-r-15"> Save </button>
+        <button class="btn" (click)="cancelEdited()"> Canceled </button>
+      </div>
+    </ng-container>
+
+    <ng-template #readTemplate>
+      <div class="task-title" *ngIf="item.title">
+        <b> {{ item.title }} </b>
+      </div>
+  
+      <div class="task-body">
+        {{ item.comment }}
+  
+        <div class="text-right">
+          <i>
+            {{ item.createdDate | date:'dd-MMM-yyyy hh:mm' }}
+          </i>
+        </div>
+      </div>
+  
+      <div class="task-box-action">
+        <button class="btn btn-warning m-r-15" *ngIf="taskType === 'Todos'"
+          (click)="editTask(item)"> Edit </button>
+        <button class="btn btn-danger"> Delete </button>
+      </div>
+    </ng-template>
+  </div>
+</ng-template>

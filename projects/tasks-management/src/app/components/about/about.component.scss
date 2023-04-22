@@ -1,0 +1,17 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.about-us {
+    margin: 50px;
+    border-radius: 12px;
+    padding: 20px;
+    max-height: 95%;
+    overflow: auto;
+}
+
+.about-content {
+    margin: 0 50px;
+}

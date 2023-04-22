@@ -1,0 +1,38 @@
+<div class="login-form-header">
+    <h1 class="primary-font-color text-center"> LOG IN </h1>
+</div>
+
+<div class="login-container" [formGroup]="loginForm">
+    <div class="form-control">
+        <lib-input
+            formControlName="email"
+            [label]="'Email'"
+            [placeholder]="'Your Email'"
+            [labelClassName]="['primary-font-color']"
+            [inputClassName]="['primary-font-color']"></lib-input>
+    </div>
+
+    <div class="form-control">
+        <lib-input
+            formControlName="password"
+            [label]="'Password'"
+            type="password"
+            [placeholder]="'Your Password'"
+            [labelClassName]="['primary-font-color']"
+            [inputClassName]="['primary-font-color']"></lib-input>
+    </div>
+
+    <div class="w-100 h-100 flex f-align-center flex-space-between">
+        <div class="right">
+            <button class="btn btn-primary m-r-12" 
+                [disabled]="invalidLogin"
+                (click)="login()"> Login </button>
+
+            <button class="btn btn-light" (click)="cancelLogin()" *ngIf="showCancelButton"> Cancel </button>
+        </div>
+
+        <ng-content select="[extendActions]"></ng-content>
+    </div>
+</div>
+
+<div class="w-100 text-align-center danger-color"> {{ errorMessage }} </div>

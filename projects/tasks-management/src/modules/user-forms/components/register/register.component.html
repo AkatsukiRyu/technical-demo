@@ -1,0 +1,69 @@
+<div class="registry-form-header">
+    <h1 class="primary-font-color text-center"> {{ title }} </h1>
+</div>
+
+<div class="registry-form" [formGroup]="registryForm">
+    
+    <div class="form-control" triggerContent>
+        <lib-input
+            formControlName="email"
+            [label]="'Email'"
+            [errorMessage]="(invalidEmailErrorMess$ | async) || ''"
+            [placeholder]="'johnsmith@gmail.com'"
+            [isRequired]="true"
+            [labelClassName]="['primary-font-color']"
+            [inputClassName]="['primary-font-color']"
+            (blur)="checkUnique('email')"></lib-input>
+    </div>
+
+    <div class="form-control" triggerContent>
+        <lib-input
+            formControlName="fullname"
+            [label]="'Fullname'"
+            [isRequired]="true"
+            [maxLength]="40"
+            [placeholder]="'Your Username'"
+            [labelClassName]="['primary-font-color']"
+            [inputClassName]="['primary-font-color']"></lib-input>
+    </div>
+
+    <div class="form-control">
+        <lib-input
+            formControlName="password"
+            [label]="'Password'"
+            [isRequired]="true"
+            [type]="'password'"
+            [maxLength]="40"
+            [placeholder]="'Your Password'"
+            [labelClassName]="['primary-font-color']"
+            [inputClassName]="['primary-font-color']"></lib-input>
+    </div>
+
+
+    <div class="form-control" triggerContent>
+        <lib-input
+            formControlName="confirmPassword"
+            [label]="'Confirm Password'"
+            [type]="'password'"
+            [isRequired]="true"
+            [maxLength]="40"
+            [errorMessage]="(confirmPassErrorMess$ | async) || ''"
+            placeholder="Confirm your Password again"
+            [labelClassName]="['primary-font-color']"
+            [inputClassName]="['primary-font-color']"></lib-input>
+    </div>
+</div>
+
+
+<div class="w-100 h-100 flex flex-align-center flex-space-between">
+    <button class="btn btn-primary m-r-12"
+        [disabled]="!isFormValid"
+        (click)="submitRegistry()"> SUBMIT </button>
+    <button class="btn btn-light"
+        *ngIf="showCancelButton"
+        (click)="onCancel()"> Cancel </button>
+
+    <ng-content select="[extendActions]"></ng-content>
+    
+</div>
+
