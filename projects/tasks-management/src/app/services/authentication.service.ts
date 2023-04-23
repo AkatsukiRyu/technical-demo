@@ -9,10 +9,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private userLogin$ = new BehaviorSubject<UserModel | null>({
-    email: 'khang@gmail.com',
-    fullname: 'Khang Nguyen'
-  });
+  private userLogin$ = new BehaviorSubject<UserModel | null>(null);
   private _appConfigration!: AppConfigurationModel;
 
   constructor(
